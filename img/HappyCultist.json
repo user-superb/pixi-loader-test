@@ -1,0 +1,181 @@
+{
+    "frames": {
+        "HappyCultist0.png": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 24
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 24
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 24
+            }
+        },
+        "HappyCultist1.png": {
+            "frame": {
+                "x": 16,
+                "y": 0,
+                "w": 16,
+                "h": 24
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 24
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 24
+            }
+        },
+        "HappyCultist2.png": {
+            "frame": {
+                "x": 0,
+                "y": 24,
+                "w": 16,
+                "h": 24
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 24
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 24
+            }
+        },
+        "HappyCultist3.png": {
+            "frame": {
+                "x": 16,
+                "y": 24,
+                "w": 16,
+                "h": 24
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 24
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 24
+            }
+        },
+        "HappyCultist4.png": {
+            "frame": {
+                "x": 0,
+                "y": 48,
+                "w": 16,
+                "h": 24
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 24
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 24
+            }
+        },
+        "HappyCultist5.png": {
+            "frame": {
+                "x": 16,
+                "y": 48,
+                "w": 16,
+                "h": 24
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 24
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 24
+            }
+        },
+        "HappyCultist6.png": {
+            "frame": {
+                "x": 0,
+                "y": 72,
+                "w": 16,
+                "h": 24
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 24
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 24
+            }
+        },
+        "HappyCultist7.png": {
+            "frame": {
+                "x": 16,
+                "y": 72,
+                "w": 16,
+                "h": 24
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 16,
+                "h": 24
+            },
+            "sourceSize": {
+                "w": 16,
+                "h": 24
+            }
+        }
+    },
+    "meta": {
+        "app": "https://github.com/piskelapp/piskel/",
+        "version": "1.0",
+        "image": "HappyCultist.png",
+        "format": "RGBA8888",
+        "size": {
+            "w": 32,
+            "h": 96
+        }
+    },
+    "animations":{
+        "up":["HappyCultist2.png","HappyCultist3.png"],
+        "down":["HappyCultist0.png","HappyCultist1.png"],
+        "left":["HappyCultist4.png","HappyCultist5.png"],
+        "right":["HappyCultist6.png","HappyCultist7.png"],
+        "default":["HappyCultist0.png"]
+    }
+}
