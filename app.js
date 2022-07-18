@@ -112,8 +112,9 @@ function doSheet(event){ // Function - Create player - Fired when the loader fin
 
     window.addEventListener('keydown',function(event){
         if (event.repeat == true) return; // Si se mantuvo pulsado la misma letra entonces no ejecuta las siguientes lineas!! 
-                                        // (Una alternativa seria setiando flags para cada input, seria mas economico en cuanto a rendimiento).
-        
+                                        // Por alguna razon el ".repeat" funciona mal en Chrome, al cambiar de tecla bruscamente
+                                        // capta la misma tecla dos veces, esto no sucede en Firefox.
+
         switch(event.code){
             case 'ArrowUp':{
                 input.up = true;
