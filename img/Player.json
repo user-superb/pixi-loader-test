@@ -164,7 +164,7 @@
     "meta": {
         "app": "https://github.com/piskelapp/piskel/",
         "version": "1.0",
-        "image": "HappyCultist.png",
+        "image": "Player.png",
         "format": "RGBA8888",
         "size": {
             "w": 32,
