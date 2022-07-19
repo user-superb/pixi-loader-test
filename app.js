@@ -4,7 +4,7 @@
 const app = new PIXI.Application({
     width: 800,
     height: 600,
-    backgroundColor: 0xffe599
+    backgroundColor: 0x2b2b2b
 });
 
 PIXI.settings.SCALE_MODE = PIXI.SCALE_MODES.NEAREST;
@@ -19,8 +19,9 @@ const recursos = loader.resources;
 // Loader
 
 loader.baseUrl = 'img';
-loader.add('sheet','HappyCultist.json');
-loader.onError.add((event) => {console.log('Rompiste todo')})
+loader.add('sheet','Player.json')
+.add('map','scene.png');
+loader.onError.add((event) => {console.log('Rompiste todo')});
 loader.onComplete.add(doSheet); // Cuando termina de cargar todos los assets ejecutar la funcion "doSheet"
 loader.load();
 
@@ -34,13 +35,15 @@ const playerSpeed = { // Velocidad jugador
     x: 5,
     y: 5
 }
-const moveQuad = false; // Jugador se mueve en 4 direcciones?
+const moveQuad = true; // Jugador se mueve en 4 direcciones?
 
 /// VARIABLES
 
 let player = new PIXI.Container();
 let playerSprite;
 let player_animations;
+
+let mapSprite;
 const keyPriority = [];
 const input = {
     up: false,
@@ -53,33 +56,41 @@ const input = {
 
 function quadMovement(event){ // Player se mueve en 4 direcciones
     if (input.up == true && keyPriority[0] == 'up'){
-        player.y -= playerSpeed.y;
+        mapSprite.y += playerSpeed.y;
     }
     if (input.down == true && keyPriority[0] == 'down'){
-        player.y += playerSpeed.y;
+        mapSprite.y -= playerSpeed.y;
     }
     if (input.left == true && keyPriority[0] == 'left'){
-        player.x -= playerSpeed.x;
+        mapSprite.x += playerSpeed.x;
     }
     if (input.right == true && keyPriority[0] == 'right'){
-        player.x += playerSpeed.x;
+        mapSprite.x -= playerSpeed.x;
     }};
 
 function octaMovement(event){ // Player se mueve en 8 direcciones
     if (input.up == true && !(keyPriority[0] == 'down')){ // Si input.x es verdadero y el primer elemento de keyPriority no sea su opuesto entonces
-        player.y -= playerSpeed.y;
+        mapSprite.y += playerSpeed.y;
     }
     if (input.down == true && !(keyPriority[0] == 'up')){
-        player.y += playerSpeed.y;
+        mapSprite.y -= playerSpeed.y;
     }
     if (input.left == true && !(keyPriority[0] == 'right')){
-        player.x -= playerSpeed.x;
+        mapSprite.x += playerSpeed.x;
     }
     if (input.right == true && !(keyPriority[0] == 'left')){
-        player.x += playerSpeed.x;
+        mapSprite.x -= playerSpeed.x;
     }};
 
 function doSheet(event){ // Function - Create player - Fired when the loader finished loading all the assets
+
+    // Create scene
+
+    const mapTexture = PIXI.Texture.from('map');
+    mapSprite = new PIXI.Sprite(mapTexture);
+    mapSprite.scale.set(scale_player);
+
+    app.stage.addChild(mapSprite);
 
     // Set Animations
 
@@ -192,8 +203,8 @@ function doSheet(event){ // Function - Create player - Fired when the loader fin
     // Set ticker - Update coords
     function showCoords(){
         app.ticker.add((event) => {
-            document.querySelector('#X').textContent = `X: ${player.x}`;
-            document.querySelector('#Y').textContent = `Y: ${player.y}`;
+            document.querySelector('#X').textContent = `X: ${(mapSprite.x * -1) + player.x}`;
+            document.querySelector('#Y').textContent = `Y: ${(mapSprite.y * -1) + player.y}`;
         })
     }
     
