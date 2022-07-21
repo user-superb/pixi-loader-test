@@ -2,8 +2,8 @@
 /// INICIALIZAR CANVAS
 
 const app = new PIXI.Application({
-    width: 800,
-    height: 600,
+    width: 1366,
+    height: 768,
     backgroundColor: 0x2b2b2b
 });
 
@@ -20,7 +20,8 @@ const recursos = loader.resources;
 
 loader.baseUrl = 'img';
 loader.add('sheet','Player.json')
-.add('map','scene.png');
+.add('map','scene.png')
+.add('hud','hud.png');
 loader.onError.add((event) => {console.log('Rompiste todo')});
 loader.onComplete.add(doSheet); // Cuando termina de cargar todos los assets ejecutar la funcion "doSheet"
 loader.load();
@@ -52,20 +53,38 @@ const input = {
     right: false
 };
 
+const fStates = {
+    isMenuActive: false,
+    isBattleActive: false
+}
+
+let hudSprite;
+const hudSettings = {
+    borde: 5,
+    scale: scale_player,
+    selectionAnimSpeed: -0.01
+}
+
 /// FUNCIONES
 
 function quadMovement(event){ // Player se mueve en 4 direcciones
+    if (fStates.isMenuActive) return;
+
     if (input.up == true && keyPriority[0] == 'up'){
         mapSprite.y += playerSpeed.y;
+        playerSprite.play();
     }
     if (input.down == true && keyPriority[0] == 'down'){
         mapSprite.y -= playerSpeed.y;
+        playerSprite.play();
     }
     if (input.left == true && keyPriority[0] == 'left'){
         mapSprite.x += playerSpeed.x;
+        playerSprite.play();
     }
     if (input.right == true && keyPriority[0] == 'right'){
         mapSprite.x -= playerSpeed.x;
+        playerSprite.play();
     }};
 
 function octaMovement(event){ // Player se mueve en 8 direcciones
@@ -89,6 +108,7 @@ function doSheet(event){ // Function - Create player - Fired when the loader fin
     const mapTexture = PIXI.Texture.from('map');
     mapSprite = new PIXI.Sprite(mapTexture);
     mapSprite.scale.set(scale_player);
+    mapSprite.position.set(20,-150);
 
     app.stage.addChild(mapSprite);
 
@@ -107,6 +127,7 @@ function doSheet(event){ // Function - Create player - Fired when the loader fin
     playerSprite.animationSpeed = anim_player_speed;
     playerSprite.scale.set(scale_player);
     playerSprite.anchor.set(0.5);
+    playerSprite.autoUpdate = true; // Para que no se rompa la animacion cuando se utiliza el metodo .play() dentro del ticker
 
     // Add sprite to player container
 
@@ -131,33 +152,35 @@ function doSheet(event){ // Function - Create player - Fired when the loader fin
                 input.up = true;
                 !keyPriority.includes('up') && keyPriority.unshift('up'); // Si el Array keyPriority no incluye a 'x' entonces agregar al principio 'o'
                 playerSprite.textures = player_animations.up.textures;
-                playerSprite.play();
                 break;
             }
             case 'ArrowDown':{
                 input.down = true;
                 !keyPriority.includes('down') && keyPriority.unshift('down');
                 playerSprite.textures = player_animations.down.textures;
-                playerSprite.play();
                 break;
             }
             case 'ArrowLeft':{
                 input.left = true;
                 !keyPriority.includes('left') && keyPriority.unshift('left');
                 playerSprite.textures = player_animations.left.textures;
-                playerSprite.play();
                 break;
             }
             case 'ArrowRight':{
                 input.right = true;
                 !keyPriority.includes('right') && keyPriority.unshift('right');
                 playerSprite.textures = player_animations.right.textures;
-                playerSprite.play();
+                break;
+            }
+
+            case 'KeyX':{
+                hud.visible = !(hud.visible);       // } Van a ir alternando entre false y true
+                fStates.isMenuActive = !(fStates.isMenuActive); // } 
                 break;
             }
         }
 
-        console.log(keyPriority)
+        // console.log(keyPriority)
     });
 
     window.addEventListener('keyup',function(event){ // Recordar que si la funcion se ejecuta entonces fue porque se dejo de presionar una tecla
@@ -189,7 +212,7 @@ function doSheet(event){ // Function - Create player - Fired when the loader fin
             playerSprite.textures = player_animations[keyPriority[0]].textures; // Cambiar el sprite animado al keyPriority actual
             playerSprite.play(); // Play sprite animation
         }
-        console.log(keyPriority)
+    // console.log(keyPriority)
     });
 
     // Set ticker - Player Movement
@@ -203,16 +226,30 @@ function doSheet(event){ // Function - Create player - Fired when the loader fin
     // Set ticker - Update coords
     function showCoords(){
         app.ticker.add((event) => {
-            document.querySelector('#X').textContent = `X: ${(mapSprite.x * -1) + player.x}`;
-            document.querySelector('#Y').textContent = `Y: ${(mapSprite.y * -1) + player.y}`;
+            document.querySelector('#X').textContent = `X: ${(mapSprite.x * -1)}`;
+            document.querySelector('#Y').textContent = `Y: ${(mapSprite.y * -1)}`;
         })
-    }
+    } showCoords();
     
-    showCoords();
-
     // Spawn Player
 
     app.stage.addChild(player);
+
+    // Draw hud
+
+    const hud = new PIXI.Container();
+
+    const hudTexture = PIXI.Texture.from('hud');
+    hudSprite = new PIXI.Sprite(hudTexture);
+    hudSprite.scale.set(hudSettings.scale);
+    hudSprite.x += hudSettings.borde; // } Le agregan un espacio para que no esten pegado al borde
+    hudSprite.y += hudSettings.borde; // }
+
+    hud.visible = false; // No es visible por defecto
+
+    hud.addChild(hudSprite);
+
+    app.stage.addChild(hud); // Siempre tiene que ser lo ultimo en renderizarse
 
     //
 };
